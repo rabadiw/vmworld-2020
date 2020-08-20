@@ -13,12 +13,21 @@ namespace Stuuck.Controllers
 {
     public class RemindersController : ApiController
     {
-        private StuuckContext db = new StuuckContext();
+        private readonly StuuckContext db = null;
+
+        public RemindersController() : this(new StuuckContext()) { }
+
+        // TODO: enable testability 
+        public RemindersController(StuuckContext db)
+        {
+            this.db = db;
+        }
 
         // GET: api/Reminders
         public IQueryable<ReminderDto> GetReminders()
         {
-            var reminders = from r in db.Reminders.Include(r => r.Schedules)
+            var reminders = from r in db.Reminders
+                            join rs in db.ReminderSchedules on r.Id equals rs.ReminderId
                             select new ReminderDto()
                             {
                                 Id = r.Id,
@@ -122,7 +131,7 @@ namespace Stuuck.Controllers
             {
                 Title = reminder.Title,
                 Description = reminder.Description,
-                Schedules = reminder.Schedule.Select(schedDto => new ReminderSchedule()
+                Schedules = reminder?.Schedule?.Select(schedDto => new ReminderSchedule()
                 {
                     Schedule = schedDto.Schedule
                 }).ToList()

@@ -1,0 +1,10 @@
+---
+applications:
+  - name: stuuck-legacy
+    memory: 1GB
+    buildpacks:
+      - hwc_buildpack
+    stack: windows
+    env:
+      ASPNETCORE_ENVIRONMENT: ((environment))
+      ConnectionStrings__StuuckContext: ((dbstring))
