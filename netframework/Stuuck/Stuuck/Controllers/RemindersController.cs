@@ -13,12 +13,20 @@ namespace Stuuck.Controllers
 {
     public class RemindersController : ApiController
     {
-        private StuuckContext db = new StuuckContext();
+        private readonly StuuckContext db = null;
+
+        public RemindersController() : this(new StuuckContext()) { }
+
+        // TODO: enable testability 
+        public RemindersController(StuuckContext db)
+        {
+            this.db = db;
+        }
 
         // GET: api/Reminders
         public IQueryable<ReminderDto> GetReminders()
         {
-            var reminders = from r in db.Reminders.Include(r => r.Schedules)
+            var reminders = from r in db.Reminders
                             select new ReminderDto()
                             {
                                 Id = r.Id,
@@ -36,7 +44,7 @@ namespace Stuuck.Controllers
         }
 
         // GET: api/Reminders/5
-        [ResponseType(typeof(Reminder))]
+        [ResponseType(typeof(ReminderDto))]
         public async Task<IHttpActionResult> GetReminder(long id)
         {
             //Reminder reminder = await db.Reminders.FindAsync(id);
@@ -110,7 +118,7 @@ namespace Stuuck.Controllers
         }
 
         // POST: api/Reminders
-        [ResponseType(typeof(Reminder))]
+        [ResponseType(typeof(ReminderDto))]
         public async Task<IHttpActionResult> PostReminder(ReminderDto reminder)
         {
             if (!ModelState.IsValid)
@@ -122,7 +130,7 @@ namespace Stuuck.Controllers
             {
                 Title = reminder.Title,
                 Description = reminder.Description,
-                Schedules = reminder.Schedule.Select(schedDto => new ReminderSchedule()
+                Schedules = reminder?.Schedule?.Select(schedDto => new ReminderSchedule()
                 {
                     Schedule = schedDto.Schedule
                 }).ToList()
