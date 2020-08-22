@@ -1,0 +1,10 @@
+---
+applications:
+  - name: stuuck-core
+    memory: 1GB
+    buildpacks:
+      - dotnet_core_buildpack
+    stack: cflinuxfs3
+    env:
+      ASPNETCORE_ENVIRONMENT: ((environment))
+      ConnectionStrings__StuuckContext: ((dbstring))

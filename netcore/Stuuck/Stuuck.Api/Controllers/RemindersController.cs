@@ -1,31 +1,31 @@
-﻿using Stuuck.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stuuck.Data;
 using Stuuck.Models;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace Stuuck.Controllers
 {
-    public class RemindersController : ApiController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class RemindersController : ControllerBase
     {
         private readonly StuuckContext db = null;
 
-        public RemindersController() : this(new StuuckContext()) { }
-
-        // TODO: enable testability 
         public RemindersController(StuuckContext db)
         {
             this.db = db;
         }
 
         // GET: api/Reminders
+        [HttpGet]
         public IQueryable<ReminderDto> GetReminders()
         {
+            // TODO: further refactor business logic 
+            // TODO: refactor to repository pattern
             var reminders = from r in db.Reminders
                             select new ReminderDto()
                             {
@@ -44,8 +44,9 @@ namespace Stuuck.Controllers
         }
 
         // GET: api/Reminders/5
-        [ResponseType(typeof(ReminderDto))]
-        public async Task<IHttpActionResult> GetReminder(long id)
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ReminderDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetReminder(long id)
         {
             //Reminder reminder = await db.Reminders.FindAsync(id);
 
@@ -73,8 +74,9 @@ namespace Stuuck.Controllers
         }
 
         // PUT: api/Reminders/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutReminder(long id, ReminderDto reminderdto)
+        [HttpPut]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> PutReminder(long id, ReminderDto reminderdto)
         {
             if (!ModelState.IsValid)
             {
@@ -114,12 +116,13 @@ namespace Stuuck.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return NoContent();
         }
 
         // POST: api/Reminders
-        [ResponseType(typeof(ReminderDto))]
-        public async Task<IHttpActionResult> PostReminder(ReminderDto reminder)
+        [HttpPost]
+        [ProducesResponseType(typeof(ReminderDto), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> PostReminder(ReminderDto reminder)
         {
             if (!ModelState.IsValid)
             {
@@ -141,8 +144,9 @@ namespace Stuuck.Controllers
         }
 
         // DELETE: api/Reminders/5
-        [ResponseType(typeof(Reminder))]
-        public async Task<IHttpActionResult> DeleteReminder(long id)
+        [HttpDelete]
+        [ProducesResponseType(typeof(Reminder), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteReminder(long id)
         {
             Reminder reminder = await db.Reminders.FindAsync(id);
             if (reminder == null)
@@ -154,15 +158,6 @@ namespace Stuuck.Controllers
             await db.SaveChangesAsync();
 
             return Ok(reminder);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         private bool ReminderExists(long id)

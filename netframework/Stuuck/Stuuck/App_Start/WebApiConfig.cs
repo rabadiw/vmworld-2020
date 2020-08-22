@@ -59,7 +59,7 @@ namespace Stuuck
             {
                 builder
                     .SetMinimumLevel(LogLevel.Trace)
-                    .AddConfiguration(configuration)
+                    .AddConfiguration(configuration.GetSection("Logging"))
                     .AddDynamicConsole();
             });
             return (
