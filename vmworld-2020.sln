@@ -8,8 +8,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuuck.Tests", "netframework\Stuuck\Stuuck.Tests\Stuuck.Tests.csproj", "{AB6A98D3-EDF6-49CD-A352-0A344D51EEC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "netframework", "netframework", "{59D02522-026C-40B6-A580-80A2C63C5E41}"
+	ProjectSection(SolutionItems) = preProject
+		netframework\Stuuck\manifest.yaml = netframework\Stuuck\manifest.yaml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "netcore", "netcore", "{DDE27F36-B6C2-4495-80D8-5AA3D4A163FD}"
+	ProjectSection(SolutionItems) = preProject
+		netcore\Stuuck\manifest.yaml = netcore\Stuuck\manifest.yaml
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stuuck.Api", "netcore\Stuuck\Stuuck.Api\Stuuck.Api.csproj", "{D6CA31EC-74BB-4F70-A64B-1C03761247BE}"
 EndProject
