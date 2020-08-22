@@ -21,3 +21,18 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet ef migrations add InitialCreate
 
 Note: Seed data using the OnModelCreating or custom initialization logic
+
+
+## Deployment
+
+On a Cloud Foundry Platform 
+
+Pipeline variables
+- $target_env - the target environment (development, qa, staging, production)
+- $target_dbstring - connection string to the database
+
+Deploy command 
+
+```powershell 
+cf push -f manifest.yaml -p bin\app.publish  --vars ASPNETCORE_ENVIRONMENT=$target_env --vars dbstring=$target_dbstring 
+```
