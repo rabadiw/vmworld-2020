@@ -23,7 +23,7 @@ namespace Stuuck.Tests
         // TODO: https://docs.microsoft.com/en-us/ef/ef6/fundamentals/testing/mocking
 
         [TestMethod]
-        public void TestReminders()
+        public void GetReminders_Should_200_3_count()
         {
             //Arrange
 

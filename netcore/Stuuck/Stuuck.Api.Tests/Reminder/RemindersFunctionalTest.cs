@@ -38,7 +38,7 @@ namespace Stuuck.Api.Tests.Reminder
         }
 
         [TestMethod]
-        public async Task Get_Reminders_Should_200()
+        public async Task GetReminders_Should_200_3_count()
         {
             var client = httpServer
                 .CreateIdempotentClient()
